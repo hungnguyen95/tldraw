@@ -337,7 +337,7 @@ async function handleClipboardThings(editor: Editor, things: ClipboardThing[], p
 
 						thing.source.then((text) => {
 							// first, see if we can find tldraw content, which is JSON inside of an html comment
-							const tldrawHtmlComment = text.match(/<tldraw[^>]*>(.*)<\/tldraw>/)?.[1]
+							const tldrawHtmlComment = text.match(/<div data-tldraw[^>]*>(.*)<\/div>/)?.[1]
 
 							if (tldrawHtmlComment) {
 								try {
@@ -537,7 +537,7 @@ const handleNativeOrMenuCopy = (editor: Editor) => {
 			.filter(isNonNull)
 
 		if (navigator.clipboard?.write) {
-			const htmlBlob = new Blob([`<tldraw>${stringifiedClipboard}</tldraw>`], {
+			const htmlBlob = new Blob([`<div data-tldraw>${stringifiedClipboard}</div>`], {
 				type: 'text/html',
 			})
 
@@ -558,7 +558,7 @@ const handleNativeOrMenuCopy = (editor: Editor) => {
 				}),
 			])
 		} else if (navigator.clipboard.writeText) {
-			navigator.clipboard.writeText(`<tldraw>${stringifiedClipboard}</tldraw>`)
+			navigator.clipboard.writeText(`<div data-tldraw>${stringifiedClipboard}</div>`)
 		}
 	}
 }
